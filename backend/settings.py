@@ -40,13 +40,18 @@ ALLOWED_HOSTS = ['*']
 
 INSTALLED_APPS = [
     'TMDB.apps.TmdbConfig',
+    'tv.apps.TvConfig',
+    'movies.apps.MoviesConfig',
+    'reviews.apps.ReviewsConfig',
+    'trending.apps.TrendingConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    "corsheaders",
+    'rest_framework',
+    'corsheaders',
 ]
 
 MIDDLEWARE = [
