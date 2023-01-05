@@ -59,6 +59,10 @@ class UpcomingMoviesAPI(generics.RetrieveAPIView):
         page = self.request.query_params.get('page') or 1
         return getUpcomingMovies(page=page)
 
+    def get(self, request, *args, **kwargs):
+        queryset = self.get_queryset()
+        return Response(queryset)
+
 
 class MovieDetails(generics.RetrieveAPIView):
     def get_queryset(self):
