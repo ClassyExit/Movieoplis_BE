@@ -2,7 +2,7 @@ from django.shortcuts import render
 from rest_framework. response import Response
 from rest_framework import generics
 
-from .API import getMovieCredits, getRecommendations, getSimilarMovies, getPopularMovies, getUpcomingMovies, getMovieDetails
+from .API import getMovieCredits, getRecommendations, getSimilarMovies, getPopularMovies, getUpcomingMovies, getMovieDetails, getMovieLatest, getMovieTopRated
 
 # Create your views here.
 
@@ -64,10 +64,29 @@ class UpcomingMoviesAPI(generics.RetrieveAPIView):
         return Response(queryset)
 
 
-class MovieDetails(generics.RetrieveAPIView):
+class MovieDetailsAPI(generics.RetrieveAPIView):
     def get_queryset(self):
         movie_id = self.request.query_params.get('movie_id')
         return getMovieDetails(movie_id)
+
+    def get(self, request, *args, **kwargs):
+        queryset = self.get_queryset()
+        return Response(queryset)
+
+
+class MovieLatestAPI(generics.RetrieveAPIView):
+    def get_queryset(self):
+        return getMovieLatest()
+
+    def get(self, request, *args, **kwargs):
+        queryset = self.get_queryset()
+        return Response(queryset)
+
+
+class MovieTopRatedAPI(generics.RetrieveAPIView):
+    def get_queryset(self):
+        page = self.request.query_params.get('page') or 1
+        return getMovieTopRated(page=page)
 
     def get(self, request, *args, **kwargs):
         queryset = self.get_queryset()

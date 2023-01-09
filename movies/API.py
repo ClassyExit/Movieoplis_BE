@@ -73,3 +73,23 @@ def getMovieDetails(movie_id, language='en-US'):
     results = res.json()
 
     return results
+
+
+def getMovieLatest(language='en-US'):
+    parameters = {'api_key': API_KEY, 'language': language}
+    url = 'https://api.themoviedb.org/3/movie/latest'
+
+    res = requests.get(url, params=parameters)
+    results = res.json()
+
+    return results
+
+
+def getMovieTopRated(language='en-US', page=1):
+    parameters = {'api_key': API_KEY, 'language': language, 'page': page}
+    url = 'https://api.themoviedb.org/3/movie/top_rated'
+
+    res = requests.get(url, params=parameters)
+    results = res.json()
+
+    return results

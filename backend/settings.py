@@ -33,7 +33,27 @@ if os.getenv("DEBUG_MODE") == 'True' or True:
     DEBUG = True
 
 
-ALLOWED_HOSTS = ['*']
+# ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', os.getenv("FRONT_END_URL")]
+
+
+# Application warning settings
+if DEBUG == False:
+    SECURE_HSTS_SECONDS = 31536000  # One year in seconds
+    SECURE_SSL_REDIRECT = True
+    SESSION_COOKIE_SECURE = True
+    CSRF_COOKIE_SECURE = True
+    SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+    SECURE_HSTS_PRELOAD = True
+    SECURE_CONTENT_TYPE_NOSNIFF = True
+else:
+    SECURE_HSTS_SECONDS = 31536000  # One year in seconds
+    SECURE_SSL_REDIRECT = False
+    SESSION_COOKIE_SECURE = False
+    CSRF_COOKIE_SECURE = False
+    SECURE_HSTS_INCLUDE_SUBDOMAINS = False
+    SECURE_HSTS_PRELOAD = False
+    SECURE_CONTENT_TYPE_NOSNIFF = False
 
 
 # Application definition
@@ -68,14 +88,15 @@ MIDDLEWARE = [
     "whitenoise.middleware.WhiteNoiseMiddleware",
 ]
 
-# TODO: UPDATE
-# CORS_ALLOWED_ORIGINS = (
-#     'http://localhost:8080',
-#     'http://192.168.1.17:8080',
-#     config('FRONT_END_URL'),
-# )
 
-CORS_ALLOW_ALL_ORIGINS: True
+# CORS_ALLOW_ALL_ORIGINS: True
+
+CORS_ALLOWED_ORIGINS = (
+    os.getenv("DEV_URL"),
+    os.getenv("DEV_URL_LOCAL"),
+    os.getenv("FRONT_END_URL"),
+)
+
 
 ROOT_URLCONF = 'backend.urls'
 
