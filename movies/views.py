@@ -2,7 +2,7 @@ from django.shortcuts import render
 from rest_framework. response import Response
 from rest_framework import generics
 
-from .API import getMovieCredits, getRecommendations, getSimilarMovies, getPopularMovies, getUpcomingMovies, getMovieDetails, getMovieLatest, getMovieTopRated
+from .API import getMovieCredits, getRecommendations, getSimilarMovies, getPopularMovies, getUpcomingMovies, getMovieDetails, getMovieLatest, getMovieTopRated, getMovieDiscover
 
 # Create your views here.
 
@@ -87,6 +87,21 @@ class MovieTopRatedAPI(generics.RetrieveAPIView):
     def get_queryset(self):
         page = self.request.query_params.get('page') or 1
         return getMovieTopRated(page=page)
+
+    def get(self, request, *args, **kwargs):
+        queryset = self.get_queryset()
+        return Response(queryset)
+
+
+class MovieDiscoverAPI(generics.RetrieveAPIView):
+    def get_queryset(self):
+        sort_by = self.request.query_params.get('sort_by')
+        page = self.request.query_params.get('page')
+        vote_average = self.request.query_params.get('vote_average')
+        vote_sort = self.request.query_params.get('vote_sort')
+        with_genres = self.request.query_params.get('with_genres')
+
+        return getMovieDiscover(sort_by=sort_by, page=page, vote_average=vote_average, vote_sort=vote_sort, with_genres=with_genres)
 
     def get(self, request, *args, **kwargs):
         queryset = self.get_queryset()

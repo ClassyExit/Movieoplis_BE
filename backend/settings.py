@@ -34,7 +34,6 @@ if os.getenv("DEBUG_MODE") == 'True' or True:
 
 
 # ALLOWED_HOSTS = ['*']
-# ALLOWED_HOSTS = ['localhost', '127.0.0.1', os.getenv("FRONT_END_URL")]
 ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS").split(',')
 
 
