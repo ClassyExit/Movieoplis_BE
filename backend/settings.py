@@ -59,6 +59,7 @@ else:
 # Application definition
 
 INSTALLED_APPS = [
+    'search.apps.SearchConfig',
     'TMDB.apps.TmdbConfig',
     'tv.apps.TvConfig',
     'movies.apps.MoviesConfig',
