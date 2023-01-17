@@ -2,7 +2,9 @@
 A project I worked on that utilizes the  [TMDB API](https://www.themoviedb.org/documentation/api?language=en-US) to create a Netflix-like movie catalog of different movies and tv shows. 
 
 
-Link to project: [https://movieopolis.web.app/home](https://movieopolis-714f2.web.app/home).
+- Link to project: [https://movieopolis.web.app/home](https://movieopolis-714f2.web.app/home)
+- Frontend repository: [https://github.com/ClassyExit/TMDB_Frontend](https://github.com/ClassyExit/TMDB_Frontend)
+- Backend repository: [https://github.com/ClassyExit/TMDB_Backend](https://github.com/ClassyExit/TMDB_Backend)
 
 ## Project Stack
 - Frontend: HTML, CSS, JavaScript, Vuejs
