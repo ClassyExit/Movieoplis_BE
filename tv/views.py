@@ -2,9 +2,32 @@ from django.shortcuts import render
 from rest_framework. response import Response
 from rest_framework import generics
 
-from .API import getTVDetails, getTVCredits, getTVRecommendations, getTVSimilar, getTVPopular, getTVShowsDiscover
-# Create your views here.
+from .API_Lists import getTVPopular, getTVTopRated
+from .API_Series import getTVDetails, getTVCredits, getTVRecommendations, getTVSimilar, getTVShowsDiscover, getTVVideos, getTVProviders 
+from .API_Seasons import getTVSeasonDetails, getTVSeasonVideos
 
+# TV LISTS
+class TVPopularAPI(generics.RetrieveAPIView):
+    def get_queryset(self):
+        page = self.request.query_params.get('page') or 1
+        return getTVPopular(page=page)
+
+    def get(self, *args, **kwargs):
+        queryset = self.get_queryset()
+        return Response(queryset)
+
+
+class TVTopRatedAPI(generics.RetrieveAPIView):
+    def get_queryset(self):
+        page = self.request.query_params.get('page') or 1
+        return getTVTopRated(page=page)
+
+    def get(self, *args, **kwargs):
+        queryset = self.get_queryset()
+        return Response(queryset)
+
+
+# TV Series
 
 class TVDetailsAPI(generics.RetrieveAPIView):
 
@@ -45,21 +68,62 @@ class TVSimilarAPI(generics.RetrieveAPIView):
         page = self.request.query_params.get('page') or 1
         return getTVSimilar(tv_id, page=page)
 
-    def get(self, request, *args, **kwargs):
+    def get(self, *args, **kwargs):
         queryset = self.get_queryset()
         return Response(queryset)
 
 
-class TVPopularAPI(generics.RetrieveAPIView):
+class TVVideosAPI(generics.RetrieveAPIView):
     def get_queryset(self):
-        page = self.request.query_params.get('page') or 1
-        return getTVPopular(page=page)
+        tv_id = self.request.query_params.get('tv_id')
+        return getTVVideos(tv_id)
 
-    def get(self, request, *args, **kwargs):
+    def get(self, *args, **kwargs):
         queryset = self.get_queryset()
         return Response(queryset)
 
 
+class TVProvidersAPI(generics.RetrieveAPIView):
+    def get_queryset(self):
+        tv_id = self.request.query_params.get('tv_id')
+        return getTVProviders(tv_id)
+
+    def get(self, *args, **kwargs):
+        queryset = self.get_queryset()
+        return Response(queryset['results']['US'])
+
+
+# TV Seasons
+
+class TVSeasonDetailsAPI(generics.RetrieveAPIView):
+    def get_queryset(self):
+        tv_id = self.request.query_params.get('tv_id')
+        season_number = self.request.query_params.get('season_number')
+        return getTVSeasonDetails(tv_id, season_number)
+
+    def get(self, *args, **kwargs):
+        queryset = self.get_queryset()
+        return Response(queryset)
+
+
+
+class TVSeasonVideosAPI(generics.RetrieveAPIView):
+    def get_queryset(self):
+        tv_id = self.request.query_params.get('tv_id')
+        season_number = self.request.query_params.get('season_number')
+        return getTVSeasonVideos(tv_id, season_number)
+
+    def get(self, *args, **kwargs):
+        queryset = self.get_queryset()
+        return Response(queryset)
+
+
+
+# TV Episodes
+
+
+
+# TODO: Move to seperate APP
 class TVDiscoverAPI(generics.RetrieveAPIView):
     def get_queryset(self):
         sort_by = self.request.query_params.get('sort_by')

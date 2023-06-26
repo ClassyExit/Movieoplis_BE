@@ -3,12 +3,67 @@ import requests
 from common_utils.variables import API_KEY
 
 
-def getMovieCredits(movie_id, language='en-US'):
+
+# Movie Lists API calls
+def getPopularMovies(language='en-US', page=1):
+    parameters = {'api_key': API_KEY, 'language': language, 'page': page}
+    url = 'https://api.themoviedb.org/3/movie/popular'
+
+    res = requests.get(url, params=parameters)
+    results = res.json()
+
+    return results
+
+
+def getUpcomingMovies(language='en-US', page=1):
+    parameters = {'api_key': API_KEY, 'language': language, 'page': page}
+    url = 'https://api.themoviedb.org/3/movie/upcoming'
+
+    res = requests.get(url, params=parameters)
+    results = res.json()
+
+    return results
+
+
+def getNowPlayingMovies(language='en-US', page=1):
+    parameters = {'api_key': API_KEY, 'language': language, 'page': page}
+    url = 'https://api.themoviedb.org/3/movie/now_playing'
+
+    res = requests.get(url, params=parameters)
+    results = res.json()
+
+    return results
+
+
+def getMovieTopRated(language='en-US', page=1):
+    parameters = {'api_key': API_KEY, 'language': language, 'page': page}
+    url = 'https://api.themoviedb.org/3/movie/top_rated'
+
+    res = requests.get(url, params=parameters)
+    results = res.json()
+
+    return results
+
+
+def getMovieLatest(language='en-US'):
+    parameters = {'api_key': API_KEY, 'language': language}
+    url = 'https://api.themoviedb.org/3/movie/latest'
+
+    res = requests.get(url, params=parameters)
+    results = res.json()
+
+    return results
+
+
+
+# Movie API calls
+
+def getMovieDetails(movie_id, language='en-US'):
     if not movie_id:
         return 'Missing movie ID'
 
     parameters = {'api_key': API_KEY, 'language': language}
-    url = f'https://api.themoviedb.org/3/movie/{movie_id}/credits'
+    url = f'https://api.themoviedb.org/3/movie/{movie_id}'
 
     res = requests.get(url, params=parameters)
     results = res.json()
@@ -42,32 +97,12 @@ def getSimilarMovies(movie_id, language='en-US', page=1):
     return results
 
 
-def getPopularMovies(language='en-US', page=1):
-    parameters = {'api_key': API_KEY, 'language': language, 'page': page}
-    url = f'https://api.themoviedb.org/3/movie/popular'
-
-    res = requests.get(url, params=parameters)
-    results = res.json()
-
-    return results
-
-
-def getUpcomingMovies(language='en-US', page=1):
-    parameters = {'api_key': API_KEY, 'language': language, 'page': page}
-    url = f'https://api.themoviedb.org/3/movie/upcoming'
-
-    res = requests.get(url, params=parameters)
-    results = res.json()
-
-    return results
-
-
-def getMovieDetails(movie_id, language='en-US'):
+def getMovieCredits(movie_id, language='en-US'):
     if not movie_id:
         return 'Missing movie ID'
 
     parameters = {'api_key': API_KEY, 'language': language}
-    url = f'https://api.themoviedb.org/3/movie/{movie_id}'
+    url = f'https://api.themoviedb.org/3/movie/{movie_id}/credits'
 
     res = requests.get(url, params=parameters)
     results = res.json()
@@ -75,9 +110,9 @@ def getMovieDetails(movie_id, language='en-US'):
     return results
 
 
-def getMovieLatest(language='en-US'):
+def getMovieVideos(movie_id, language='en-US'):
     parameters = {'api_key': API_KEY, 'language': language}
-    url = 'https://api.themoviedb.org/3/movie/latest'
+    url = f'https://api.themoviedb.org/3/movie/{movie_id}/videos'
 
     res = requests.get(url, params=parameters)
     results = res.json()
@@ -85,15 +120,22 @@ def getMovieLatest(language='en-US'):
     return results
 
 
-def getMovieTopRated(language='en-US', page=1):
-    parameters = {'api_key': API_KEY, 'language': language, 'page': page}
-    url = 'https://api.themoviedb.org/3/movie/top_rated'
+def getMovieProviders(movie_id):
+    parameters = {'api_key': API_KEY}
+    url = f'https://api.themoviedb.org/3/movie/{movie_id}/watch/providers'
 
     res = requests.get(url, params=parameters)
     results = res.json()
 
     return results
 
+
+
+
+
+
+
+# TODO: Movie out into discover APP 
 
 def getMovieDiscover(language='en-US', sort_by='popularity.desc', page=1, vote_average=5, vote_sort='gte', with_genres=''):
     parameters = {'api_key': API_KEY, 'language': language,
