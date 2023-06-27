@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import MovieCreditsAPI, MovieRecommendationsAPI, SimilarMoviesAPI, PopularMoviesAPI, UpcomingMoviesAPI, MovieDetailsAPI, MovieLatestAPI, MovieTopRatedAPI, MovieDiscoverAPI, NowPlayingMoviesAPI, MovieVideosAPI, MovieProvidersAPI
+from .views import MovieCreditsAPI, MovieRecommendationsAPI, SimilarMoviesAPI, PopularMoviesAPI, UpcomingMoviesAPI, MovieDetailsAPI, MovieLatestAPI, MovieTopRatedAPI, NowPlayingMoviesAPI, MovieVideosAPI, MovieProvidersAPI
 
 
 urlpatterns = [
@@ -19,10 +19,4 @@ urlpatterns = [
     path('movie/credits', MovieCreditsAPI.as_view(), name='movie-credits'), 
     path('movie/videos', MovieVideosAPI.as_view(), name='movie-videos'),
     path('movie/providers', MovieProvidersAPI.as_view(), name='movie-providers'),
-    
-    
-    
-    
-    # TODO: Movie out into discover APP 
-    path('movie/discover', MovieDiscoverAPI.as_view(), name='movie-discover')
 ]
