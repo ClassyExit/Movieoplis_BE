@@ -14,7 +14,7 @@ class MovieSearchAPI(generics.RetrieveAPIView):
         page = self.request.query_params.get('page') or 1
         return searchMovie(query=query, page=page)
 
-    def get(self, request, *args, **kwargs):
+    def get(self, *args, **kwargs):
         queryset = self.get_queryset()
         return Response(queryset)
 
@@ -27,7 +27,7 @@ class TVSearchAPI(generics.RetrieveAPIView):
         page = self.request.query_params.get('page') or 1
         return searchTV(query=query, page=page)
 
-    def get(self, request, *args, **kwargs):
+    def get(self, *args, **kwargs):
         queryset = self.get_queryset()
         return Response(queryset)
 
@@ -40,6 +40,6 @@ class MultiSearchAPI(generics.RetrieveAPIView):
         page = self.request.query_params.get('page') or 1
         return multiSearch(query=query, page=page)
 
-    def get(self, request, *args, **kwargs):
+    def get(self, *args, **kwargs):
         queryset = self.get_queryset()
         return Response(queryset)

@@ -65,6 +65,7 @@ INSTALLED_APPS = [
     'movies.apps.MoviesConfig',
     'reviews.apps.ReviewsConfig',
     'trending.apps.TrendingConfig',
+    'discover.apps.DiscoverConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',

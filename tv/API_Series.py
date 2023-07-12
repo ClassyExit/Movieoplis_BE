@@ -55,9 +55,10 @@ def getTVSimilar(tv_id, language='en-US', page=1):
     return results
 
 
-def getTVPopular(language='en-US', page=1):
-    parameters = {'api_key': API_KEY, 'language': language, 'page': page}
-    url = f'https://api.themoviedb.org/3/tv/popular'
+
+def getTVVideos(tv_id, language='en-US'):
+    parameters = {'api_key': API_KEY, 'language': language}
+    url = f'https://api.themoviedb.org/3/tv/{tv_id}/videos'
 
     res = requests.get(url, params=parameters)
     results = res.json()
@@ -65,13 +66,18 @@ def getTVPopular(language='en-US', page=1):
     return results
 
 
-def getTVShowsDiscover(language='en-US', sort_by='popularity.desc', page=1, vote_average=5, vote_sort='gte', with_genres='', with_networks=''):
-    parameters = {'api_key': API_KEY, 'language': language,
-                  'page': page, 'sort_by': sort_by, f'vote_average.{vote_sort}': vote_average, 'with_genres': with_genres, 'with_networks': with_networks}
-
-    url = 'https://api.themoviedb.org/3/discover/tv'
+def getTVProviders(tv_id):
+    parameters = {'api_key': API_KEY}
+    url = f'https://api.themoviedb.org/3/tv/{tv_id}/watch/providers'
 
     res = requests.get(url, params=parameters)
     results = res.json()
 
     return results
+
+
+
+
+
+
+
