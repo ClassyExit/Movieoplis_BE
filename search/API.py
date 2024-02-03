@@ -44,3 +44,16 @@ def multiSearch(query, language='en-US', page=1):
     results = res.json()
 
     return results
+
+
+def getCollections( collection_id):
+    if not collection_id:
+        return {'error': 'Missing collection id'}
+    
+    parameters = {'api_key': API_KEY, 'language': 'en-US'}
+    url = f'https://api.themoviedb.org/3/collection/{collection_id}'
+
+    res = requests.get(url, params=parameters)  
+    results = res.json()
+
+    return results
