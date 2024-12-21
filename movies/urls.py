@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import MovieCreditsAPI, MovieRecommendationsAPI, SimilarMoviesAPI, PopularMoviesAPI, UpcomingMoviesAPI, MovieDetailsAPI, MovieLatestAPI, MovieTopRatedAPI, NowPlayingMoviesAPI, MovieVideosAPI, MovieProvidersAPI
+from .views import MovieCreditsAPI, MovieRecommendationsAPI, SimilarMoviesAPI, PopularMoviesAPI, UpcomingMoviesAPI, MovieDetailsAPI, MovieTopRatedAPI, NowPlayingMoviesAPI, MovieVideosAPI, MovieProvidersAPI
 
 
 urlpatterns = [
@@ -8,7 +8,6 @@ urlpatterns = [
     path('movie/upcoming', UpcomingMoviesAPI.as_view(), name='movie-upcoming'),
     path('movie/toprated', MovieTopRatedAPI.as_view(), name='movie-toprated'),
     path('movie/nowplaying', NowPlayingMoviesAPI.as_view(), name='movie-nowplaying'),
-    path('movie/latest', MovieLatestAPI.as_view(), name='movie-lastest'),
 
 
     # Movie

@@ -4,7 +4,7 @@ from rest_framework import generics
 
 from .API_Lists import getTVPopular, getTVTopRated
 from .API_Series import getTVDetails, getTVCredits, getTVRecommendations, getTVSimilar, getTVVideos, getTVProviders 
-from .API_Seasons import getTVSeasonDetails, getTVSeasonVideos
+from .API_Seasons import getTVSeasonDetails, getTVSeasonVideos, getTVEpisodeDetails
 
 # TV LISTS
 class TVPopularAPI(generics.RetrieveAPIView):
@@ -120,7 +120,16 @@ class TVSeasonVideosAPI(generics.RetrieveAPIView):
 
 
 # TV Episodes
+class TVEpisodeDetailsAPI(generics.RetrieveAPIView):
+    def get_queryset(self):
+        tv_id = self.request.query_params.get('tv_id')
+        season_number = self.request.query_params.get('season_number')
+        episode_number = self.request.query_params.get('episode_number')
+        return getTVEpisodeDetails(tv_id, season_number, episode_number)
 
+    def get(self, *args, **kwargs):
+        queryset = self.get_queryset()
+        return Response(queryset)
 
 
 

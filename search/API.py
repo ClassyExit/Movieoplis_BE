@@ -38,10 +38,18 @@ def multiSearch(query, language='en-US', page=1):
 
     parameters = {'api_key': API_KEY,
                   'language': language, 'query': query, 'page': page}
-    url = f'https://api.themoviedb.org/3/search/multi'
+    url1 = f'https://api.themoviedb.org/3/search/tv'
 
-    res = requests.get(url, params=parameters)
-    results = res.json()
+    url2 = f'https://api.themoviedb.org/3/search/movie'
+
+    res1 = requests.get(url1, params=parameters)
+    res2 = requests.get(url2, params=parameters)
+
+    combined_res = {
+        'tv': res1.json(),
+        'movies': res2.json()
+    }
+    results = combined_res
 
     return results
 
