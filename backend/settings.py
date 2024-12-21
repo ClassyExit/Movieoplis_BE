@@ -93,11 +93,14 @@ MIDDLEWARE = [
 
 # CORS_ALLOW_ALL_ORIGINS: True
 
-CORS_ALLOWED_ORIGINS = (
+CORS_ALLOWED_ORIGINS = [
     os.getenv("DEV_URL"),
     os.getenv("DEV_URL_LOCAL"),
     os.getenv("FRONT_END_URL"),
-)
+    os.getenv("FRONT_END_URL2")
+]
+
+CORS_ALLOWED_METHODS = [ "GET" ]
 
 
 ROOT_URLCONF = 'backend.urls'
