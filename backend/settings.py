@@ -66,6 +66,7 @@ INSTALLED_APPS = [
     'reviews.apps.ReviewsConfig',
     'trending.apps.TrendingConfig',
     'discover.apps.DiscoverConfig',
+    'collections_v1.apps.CollectionsV1Config',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',

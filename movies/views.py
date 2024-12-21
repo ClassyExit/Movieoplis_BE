@@ -2,7 +2,7 @@ from django.shortcuts import render
 from rest_framework. response import Response
 from rest_framework import generics
 
-from .API import getMovieCredits, getRecommendations, getSimilarMovies, getPopularMovies, getUpcomingMovies, getMovieDetails, getMovieLatest, getMovieTopRated, getNowPlayingMovies, getMovieVideos, getMovieProviders
+from .API import getMovieCredits, getRecommendations, getSimilarMovies, getPopularMovies, getUpcomingMovies, getMovieDetails, getMovieTopRated, getNowPlayingMovies, getMovieVideos, getMovieProviders
 
 
 
