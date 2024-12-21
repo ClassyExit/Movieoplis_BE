@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import TVDetailsAPI, TVCreditsAPI, TVRecommendationsAPI, TVSimilarAPI, TVPopularAPI, TVTopRatedAPI, TVVideosAPI, TVProvidersAPI, TVSeasonDetailsAPI, TVSeasonVideosAPI 
+from .views import TVDetailsAPI, TVCreditsAPI, TVRecommendationsAPI, TVSimilarAPI, TVPopularAPI, TVTopRatedAPI, TVVideosAPI, TVProvidersAPI, TVSeasonDetailsAPI, TVSeasonVideosAPI, TVEpisodeDetailsAPI 
 
 urlpatterns = [
     # TV Lists
@@ -23,7 +23,7 @@ urlpatterns = [
     
 
     # TV Episodes
-
+    path('tv/episode/details', TVSeasonDetailsAPI.as_view(), name='tv-episode-details'),
     
     
     

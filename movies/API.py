@@ -45,16 +45,6 @@ def getMovieTopRated(language='en-US', page=1):
     return results
 
 
-def getMovieLatest(language='en-US'):
-    parameters = {'api_key': API_KEY, 'language': language}
-    url = 'https://api.themoviedb.org/3/movie/latest'
-
-    res = requests.get(url, params=parameters)
-    results = res.json()
-
-    return results
-
-
 
 # Movie API calls
 

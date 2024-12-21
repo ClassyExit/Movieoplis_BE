@@ -22,3 +22,14 @@ def getTVSeasonVideos(tv_id, season_number):
     results = res.json()
 
     return results
+
+
+def getTVEpisodeDetails(tv_id, season_number, episode_number):
+    parameters = {'api_key': API_KEY}
+
+    url = f'https://api.themoviedb.org/3/tv/{tv_id}/season/{season_number}/episode/{episode_number}'
+
+    res = requests.get(url, params=parameters)
+    results = res.json()
+
+    return results

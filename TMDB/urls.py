@@ -4,5 +4,5 @@ from .views import TVGenreAPI, MovieGenreAPI
 
 urlpatterns = [
     path('genre/tv', TVGenreAPI.as_view(), name='genre-tv'),
-    path('genre/movies', MovieGenreAPI.as_view(), name='genre-movie')
+    path('genre/movie', MovieGenreAPI.as_view(), name='genre-movie')
 ]

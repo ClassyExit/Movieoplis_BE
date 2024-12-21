@@ -26,6 +26,7 @@ urlpatterns = [
     path('api/', include('tv.urls')),
     path('api/', include('search.urls')),
     path('api/', include('discover.urls')),
+    path('api/', include('collections_v1.urls')),
     # path('', include('TMDB.urls'))
     path('', RedirectView.as_view(url='admin/'))
 ]
