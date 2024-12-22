@@ -66,7 +66,6 @@ INSTALLED_APPS = [
     'reviews.apps.ReviewsConfig',
     'trending.apps.TrendingConfig',
     'discover.apps.DiscoverConfig',
-    'collections_v1.apps.CollectionsV1Config',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -94,13 +93,11 @@ MIDDLEWARE = [
 
 # CORS_ALLOW_ALL_ORIGINS: True
 
-CORS_ALLOWED_ORIGINS = [
+CORS_ALLOWED_ORIGINS = (
     os.getenv("DEV_URL"),
     os.getenv("DEV_URL_LOCAL"),
     os.getenv("FRONT_END_URL"),
-]
-
-CORS_ALLOWED_METHODS = [ "GET" ]
+)
 
 
 ROOT_URLCONF = 'backend.urls'
