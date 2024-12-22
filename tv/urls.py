@@ -23,7 +23,7 @@ urlpatterns = [
     
 
     # TV Episodes
-    path('tv/episode/details', TVSeasonDetailsAPI.as_view(), name='tv-episode-details'),
+    path('tv/episode/details', TVEpisodeDetailsAPI.as_view(), name='tv-episode-details'),
     
     
     

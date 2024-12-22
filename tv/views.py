@@ -90,7 +90,7 @@ class TVProvidersAPI(generics.RetrieveAPIView):
 
     def get(self, *args, **kwargs):
         queryset = self.get_queryset()
-        return Response(queryset['results']['US'])
+        return Response(queryset)
 
 
 # TV Seasons

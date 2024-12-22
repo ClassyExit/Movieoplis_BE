@@ -5,11 +5,11 @@ class MyAPITestCase(TestCase):
     def setUp(self):
         self.client = Client()
 
-
-    def test_movie_review(self):
-        response = self.client.get('/api/movie/review')
+    
+    def test_discover_movie(self):
+        response = self.client.get('/api/discover/movie')
         self.assertEqual(response.status_code, 200)
-
-    def test_tv_review(self):
-        response = self.client.get('/api/tv/review')
+    
+    def test_discover_tv(self):
+        response = self.client.get('/api/discover/tv')
         self.assertEqual(response.status_code, 200)

@@ -130,7 +130,7 @@ class MovieProvidersAPI(generics.RetrieveAPIView):
     def get(self, *args, **kwargs):
         queryset = self.get_queryset()
         # Return only US providers
-        return Response(queryset['results']['US'])
+        return Response(queryset)
 
 
 
