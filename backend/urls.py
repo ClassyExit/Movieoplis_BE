@@ -16,6 +16,8 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from django.views.generic import RedirectView
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -29,4 +31,4 @@ urlpatterns = [
     path('api/', include('collections_v1.urls')),
     # path('', include('TMDB.urls'))
     path('', RedirectView.as_view(url='admin/'))
-]
+] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
