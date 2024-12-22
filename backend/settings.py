@@ -59,8 +59,6 @@ else:
 # Application definition
 
 INSTALLED_APPS = [
-    'rest_framework',
-    'corsheaders',
     'search.apps.SearchConfig',
     'TMDB.apps.TmdbConfig',
     'tv.apps.TvConfig',
@@ -75,6 +73,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'rest_framework',
+    'corsheaders',
 ]
 
 MIDDLEWARE = [
