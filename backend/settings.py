@@ -98,7 +98,6 @@ CORS_ALLOWED_ORIGINS = [
     os.getenv("DEV_URL"),
     os.getenv("DEV_URL_LOCAL"),
     os.getenv("FRONT_END_URL"),
-    
 ]
 
 CORS_ALLOWED_METHODS = [ "GET" ]
