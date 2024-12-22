@@ -59,6 +59,8 @@ else:
 # Application definition
 
 INSTALLED_APPS = [
+    'rest_framework',
+    'corsheaders',
     'search.apps.SearchConfig',
     'TMDB.apps.TmdbConfig',
     'tv.apps.TvConfig',
@@ -73,8 +75,6 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'rest_framework',
-    'corsheaders',
 ]
 
 MIDDLEWARE = [
@@ -98,7 +98,7 @@ CORS_ALLOWED_ORIGINS = [
     os.getenv("DEV_URL"),
     os.getenv("DEV_URL_LOCAL"),
     os.getenv("FRONT_END_URL"),
-    os.getenv("FRONT_END_URL2")
+    
 ]
 
 CORS_ALLOWED_METHODS = [ "GET" ]
