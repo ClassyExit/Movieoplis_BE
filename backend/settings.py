@@ -90,13 +90,33 @@ MIDDLEWARE = [
     "whitenoise.middleware.WhiteNoiseMiddleware",
 ]
 
-
-# CORS_ALLOW_ALL_ORIGINS: True
-
-CORS_ALLOWED_ORIGINS = (
+if DEBUG:
+    # CORS_ALLOW_ALL_ORIGINS: True
+    CORS_ALLOW_ALL_ORIGINS = True
+    CORS_ALLOW_CREDENTIALS = True
+else:
+    CORS_ALLOWED_ORIGINS = (
     os.getenv("DEV_URL"),
     os.getenv("DEV_URL_LOCAL"),
     os.getenv("FRONT_END_URL"),
+)
+
+CORS_ALLOW_METHODS = (
+    "DELETE",
+    "GET",
+    "OPTIONS",
+    "PATCH",
+    "POST",
+    "PUT",
+)
+
+CORS_ALLOW_HEADERS = (
+    "accept",
+    "authorization",
+    "content-type",
+    "user-agent",
+    "x-csrftoken",
+    "x-requested-with",
 )
 
 
