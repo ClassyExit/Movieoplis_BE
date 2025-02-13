@@ -10,16 +10,12 @@ def multiSearch(query, language='en-US', page=1):
 
     parameters = {'api_key': API_KEY,
                   'language': language, 'query': query, 'page': page}
-    url1 = f'https://api.themoviedb.org/3/search/tv'
-
-    url2 = f'https://api.themoviedb.org/3/search/movie'
-
-    res1 = requests.get(url1, params=parameters)
-    res2 = requests.get(url2, params=parameters)
+    url_tv = f'https://api.themoviedb.org/3/search/tv'
+    url_movie = f'https://api.themoviedb.org/3/search/movie'
 
     results = {
-        'tv': res1.json(),
-        'movies': res2.json()
+        'tv': requests.get(url_tv, params=parameters).json(),
+        'movies': requests.get(url_movie, params=parameters).json()
     }
 
     return results

@@ -15,39 +15,7 @@ def getPopularMovies(language='en-US', page=1):
     return results
 
 
-def getUpcomingMovies(language='en-US', page=1):
-    parameters = {'api_key': API_KEY, 'language': language, 'page': page}
-    url = 'https://api.themoviedb.org/3/movie/upcoming'
-
-    res = requests.get(url, params=parameters)
-    results = res.json()
-
-    return results
-
-
-def getNowPlayingMovies(language='en-US', page=1):
-    parameters = {'api_key': API_KEY, 'language': language, 'page': page}
-    url = 'https://api.themoviedb.org/3/movie/now_playing'
-
-    res = requests.get(url, params=parameters)
-    results = res.json()
-
-    return results
-
-
-def getMovieTopRated(language='en-US', page=1):
-    parameters = {'api_key': API_KEY, 'language': language, 'page': page}
-    url = 'https://api.themoviedb.org/3/movie/top_rated'
-
-    res = requests.get(url, params=parameters)
-    results = res.json()
-
-    return results
-
-
-
 # Movie API calls
-
 def getMovieDetails(movie_id, language='en-US'):
     if not movie_id:
         return 'Missing movie ID'
