@@ -18,7 +18,6 @@ def getTVSeasonDetails(tv_id, season_number):
 
 
 
-
 def getTVEpisodeDetails(tv_id, season_number, episode_number):
     parameters = {'api_key': API_KEY}
 

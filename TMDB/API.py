@@ -18,5 +18,3 @@ def getGenreList(language='en-US'):
 
 
 
-
-

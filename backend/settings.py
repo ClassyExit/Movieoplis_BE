@@ -11,7 +11,9 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 
 from pathlib import Path
-import os, dj_database_url
+import os
+
+
 
 from dotenv import load_dotenv
 
@@ -62,6 +64,7 @@ INSTALLED_APPS = [
     'search.apps.SearchConfig',
     'TMDB.apps.TmdbConfig',
     'tv.apps.TvConfig',
+    'library.apps.LibraryConfig',
     'movies.apps.MoviesConfig',
     'reviews.apps.ReviewsConfig',
     'trending.apps.TrendingConfig',
