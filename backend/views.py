@@ -4,3 +4,5 @@ from django.shortcuts import render
 
 def statuspage(request):
     return render(request, 'status.html')
+
+

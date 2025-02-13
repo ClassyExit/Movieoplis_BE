@@ -14,7 +14,6 @@ from pathlib import Path
 import os
 
 
-
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -67,6 +66,7 @@ INSTALLED_APPS = [
     'library.apps.LibraryConfig',
     'movies.apps.MoviesConfig',
     'reviews.apps.ReviewsConfig',
+    'authentication.apps.AuthenticationConfig',
     'trending.apps.TrendingConfig',
     'discover.apps.DiscoverConfig',
     'django.contrib.admin',
