@@ -4,6 +4,7 @@ from common_utils.variables import API_KEY
 
 
 def getCollections(collection_id, language='en-US', ):
+    """Returns all movies in a collection based on the collection_id"""
     if not collection_id: 
         return 
     

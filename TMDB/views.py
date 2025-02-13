@@ -3,29 +3,21 @@ from rest_framework import generics
 from rest_framework.decorators import api_view
 import requests
 
-from .API import getMovieGenreList, getTVGenreList
+from .API import getGenreList
 
 # Create your views here.
 
 
-class TVGenreAPI(generics.RetrieveAPIView):
+class GenreAPI(generics.RetrieveAPIView):
 
     def get_queryset(self):
-        return getTVGenreList()
+        return getGenreList()
 
     def get(self, *args, **kwargs):
         queryset = self.get_queryset()
         return Response(queryset)
 
 
-class MovieGenreAPI(generics.RetrieveAPIView):
-
-    def get_queryset(self):
-        return getMovieGenreList()
-
-    def get(self, *args, **kwargs):
-        queryset = self.get_queryset()
-        return Response(queryset)
 
 
 
