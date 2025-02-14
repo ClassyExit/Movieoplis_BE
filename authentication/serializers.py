@@ -6,9 +6,9 @@ class UserSerializer(serializers.ModelSerializer):
         model = User
         fields = ['firebase_uid']
 
-    def validate_firebase_uid(self, value):
-        if User.objects.filter(firebase_uid=value).exists():
-            raise serializers.ValidationError("User with this Firebase UID already exists.")
-        return value
+    def validate_firebase_uid(self, uid):
+        if User.objects.filter(firebase_uid=uid).exists():
+            raise serializers.ValidationError({'error': "User with this Firebase UID already exists."})
+        return uid
 
     

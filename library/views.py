@@ -60,9 +60,9 @@ def ListAPI(request):
         )
 
         # Save the new item
-        new_item.save()
+        new_item.save(using='default')
 
-        return Response({'message': 'Item added successfully'}, status=status.HTTP_201_CREATED)
+        return Response({'success': 'Item added successfully'}, status=status.HTTP_201_CREATED)
 
 
     elif request.method == 'DELETE':
@@ -78,14 +78,13 @@ def ListAPI(request):
 
         # Check if item_id is provided
         if not delete_item_id:
-            return Response({'message': 'Item ID is required'}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({'error': 'Item ID is required'}, status=status.HTTP_400_BAD_REQUEST)
         
         # Get the item to delete
         item_to_delete = ListItem.objects.filter(firebase_uid=firebase_uid, item_id=delete_item_id)
 
         if not item_to_delete:
-            return Response({'message': 'Item not found'}, status=status.HTTP_404_NOT_FOUND)
+            return Response({'error': 'Item not found'}, status=status.HTTP_404_NOT_FOUND)
         else:
-            item_to_delete.delete()
-
-        return Response({'message': 'Item deleted successfully'}, status=status.HTTP_201_CREATED)
+            item_to_delete.delete(using='default')
+        return Response({'success': 'Item deleted successfully'}, status=status.HTTP_201_CREATED)
