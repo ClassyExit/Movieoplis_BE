@@ -1,6 +1,6 @@
 from django.db import models
 
-class SavedItem(models.Model):
+class ListItem(models.Model):
     MOVIE = 'movie'
     TV = 'tv'
 
@@ -9,6 +9,8 @@ class SavedItem(models.Model):
         (TV, 'TV Show'),
     ]
 
+    firebase_uid = models.CharField(max_length=100)
+    item_id = models.CharField(max_length=100, blank=False, null=False)
     title = models.CharField(max_length=255)
     overview = models.TextField(blank=True, null=True)
     poster = models.URLField(max_length=500, blank=True, null=True)
@@ -17,10 +19,10 @@ class SavedItem(models.Model):
 
     class Meta:
         indexes = [
-            models.Index(fields=['type']),
+            models.Index(fields=['firebase_uid']),
             models.Index(fields=['title']),
         ]
         ordering = ['-created_at']
 
     def __str__(self):
-        return f"{self.title} ({self.type})"
+        return f"{self.firebase_uid} ({self.title})"
