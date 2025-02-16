@@ -60,7 +60,11 @@ def ListAPI(request):
         )
 
         # Save the new item
+<<<<<<< HEAD
         new_item.save()
+=======
+        new_item.save(using='default')
+>>>>>>> 0a021405f5a2abcb9e07e28d34b160761e3d5f28
 
         return Response({'success': 'Item added successfully'}, status=status.HTTP_201_CREATED)
 
@@ -86,5 +90,9 @@ def ListAPI(request):
         if not item_to_delete:
             return Response({'error': 'Item not found'}, status=status.HTTP_404_NOT_FOUND)
         else:
+<<<<<<< HEAD
             item_to_delete.delete()
+=======
+            item_to_delete.delete(using='default')
+>>>>>>> 0a021405f5a2abcb9e07e28d34b160761e3d5f28
         return Response({'success': 'Item deleted successfully'}, status=status.HTTP_201_CREATED)

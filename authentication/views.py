@@ -27,7 +27,11 @@ def AddUser(request):
 
         serializer = UserSerializer(data=data)
         if serializer.is_valid():
+<<<<<<< HEAD
             serializer.save()
+=======
+            serializer.save(using='default')
+>>>>>>> 0a021405f5a2abcb9e07e28d34b160761e3d5f28
             return Response({'success': 'Item added successfully'}, status=status.HTTP_201_CREATED)
         return Response({'error': serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
     
@@ -42,7 +46,11 @@ def AddUser(request):
         try: 
             # Check if user exists
             delete_user = User.objects.get(firebase_uid=firebase_uid)
+<<<<<<< HEAD
             delete_user.delete()
+=======
+            delete_user.delete(using='default')
+>>>>>>> 0a021405f5a2abcb9e07e28d34b160761e3d5f28
             return Response({'success': 'User deleted successfully'}, status=status.HTTP_204_NO_CONTENT)
         except User.DoesNotExist:
             return Response({'error': 'User not found'}, status=status.HTTP_404_NOT_FOUND)

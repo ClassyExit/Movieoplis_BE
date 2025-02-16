@@ -1,10 +1,9 @@
-from django.shortcuts import render
 from rest_framework.response import Response
 from rest_framework import generics
 # Create your views here.
 
 from common_utils.variables import API_KEY
-from .API import getTrending
+from .API import getTrending, getTopRated, getUpcomingMovies, getNowPlayingMovies
 
 
 class TrendingAPI(generics.RetrieveAPIView):
@@ -19,4 +18,35 @@ class TrendingAPI(generics.RetrieveAPIView):
     def get(self, request, *args, **kawrgs):
         queryset = self.get_queryset()
 
+        return Response(queryset)
+
+
+class TopRatedAPI(generics.RetrieveAPIView):
+    def get_queryset(self):
+        page = self.request.query_params.get('page') or 1
+        return getTopRated(page=page)
+
+    def get(self, *args, **kwargs):
+        queryset = self.get_queryset()
+        return Response(queryset)
+    
+
+class UpcomingMoviesAPI(generics.RetrieveAPIView):
+    def get_queryset(self):
+        page = self.request.query_params.get('page') or 1
+        return getUpcomingMovies(page=page)
+
+    def get(self, *args, **kwargs):
+        queryset = self.get_queryset()
+        return Response(queryset)
+
+
+
+class NowPlayingMoviesAPI(generics.RetrieveAPIView):
+    def get_queryset(self):
+         page = self.request.query_params.get('page') or 1
+         return getNowPlayingMovies(page=page)
+    
+    def get(self, *args, **kwargs):
+        queryset = self.get_queryset()
         return Response(queryset)
