@@ -104,9 +104,13 @@ else:
     os.getenv("FRONT_END_URL"),
 )
 
-CORS_ALLOW_HEADERS = list(default_headers) + [
-    'uid',  # Add your custom header here
-]
+CORS_ALLOW_HEADERS = (
+    *default_headers,
+    "uid",
+)
+
+CORS_EXPOSE_HEADERS = ['uid']
+
 
 CORS_ALLOW_METHODS = (
     "DELETE",
@@ -117,14 +121,8 @@ CORS_ALLOW_METHODS = (
     "PUT",
 )
 
-CORS_ALLOW_HEADERS = (
-    "accept",
-    "authorization",
-    "content-type",
-    "user-agent",
-    "x-csrftoken",
-    "x-requested-with",
-)
+
+
 
 
 ROOT_URLCONF = 'backend.urls'
