@@ -30,6 +30,8 @@ urlpatterns = [
     path('api/', include('search.urls')),
     path('api/', include('discover.urls')),
     path('api/', include('collections_v1.urls')),
+    path('api/', include('authentication.urls')),
+    path('api/', include('library.urls')),
     path('status', views.statuspage, name='statuspage'),
     path('', RedirectView.as_view(url='admin/'))
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

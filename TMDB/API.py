@@ -3,23 +3,18 @@ import requests
 from common_utils.variables import API_KEY
 
 
-def getMovieGenreList(language='en-US'):
+def getGenreList(language='en-US'):
 
     parameters = {'api_key': API_KEY, 'language': language}
-    url = f'https://api.themoviedb.org/3/genre/movie/list'
+    url_movie = f'https://api.themoviedb.org/3/genre/movie/list'
+    url_show = f'https://api.themoviedb.org/3/genre/tv/list'
 
-    res = requests.get(url, params=parameters)
-    results = res.json()
+    results = {
+        'movies': requests.get(url_movie, params=parameters).json(),
+        'shows': requests.get(url_show, params=parameters).json()
+    }
 
     return results
 
 
-def getTVGenreList(language='en-US'):
 
-    parameters = {'api_key': API_KEY, 'language': language}
-    url = f'https://api.themoviedb.org/3/genre/tv/list'
-
-    res = requests.get(url, params=parameters)
-    results = res.json()
-
-    return results

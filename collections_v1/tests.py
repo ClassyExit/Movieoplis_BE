@@ -7,5 +7,5 @@ class MyAPITestCase(TestCase):
 
     
     def test_getCollections(self):
-        response = self.client.get('/api/search/collections')
+        response = self.client.get('/api/collections')
         self.assertEqual(response.status_code, 200)
