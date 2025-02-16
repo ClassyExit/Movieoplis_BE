@@ -13,7 +13,7 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 from pathlib import Path
 import os
 
-
+from corsheaders.defaults import default_headers
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -103,6 +103,10 @@ else:
     os.getenv("DEV_URL_LOCAL"),
     os.getenv("FRONT_END_URL"),
 )
+
+CORS_ALLOW_HEADERS = list(default_headers) + [
+    'uid',  # Add your custom header here
+]
 
 CORS_ALLOW_METHODS = (
     "DELETE",
