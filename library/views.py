@@ -53,6 +53,7 @@ def ListAPI(request):
 
         # Create a new ListItem instance
         new_item = ListItem.objects.create(
+            item_id=item_id,
             firebase_uid=firebase_uid,
             title=title,
             overview=overview,
