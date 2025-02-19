@@ -26,3 +26,23 @@ def getTVShowsDiscover(language='en-US', sort_by='popularity.desc', page=1, vote
     results = res.json()
 
     return results
+
+
+def getPopularMovies(language='en-US', page=1):
+    parameters = {'api_key': API_KEY, 'language': language, 'page': page}
+    url = 'https://api.themoviedb.org/3/movie/popular'
+
+    res = requests.get(url, params=parameters)
+    results = res.json()
+
+    return results
+
+
+def getVideos(movie_id, language='en-US'):
+    parameters = {'api_key': API_KEY, 'language': language}
+    url = f'https://api.themoviedb.org/3/movie/{movie_id}/videos'
+
+    res = requests.get(url, params=parameters)
+    results = res.json()
+
+    return results

@@ -1,37 +1,50 @@
 from django.shortcuts import render
-from rest_framework. response import Response
-from rest_framework import generics
+from rest_framework.response import Response
+from rest_framework import generics, status
 
-# Create your views here.
-
+# Import API functions
 from .API import getMovieReviews, getTVReviews
 
 
-class MovieReviewAPI(generics.RetrieveAPIView):
+class MovieReviewAPI(generics.ListAPIView):
     '''Get the reviews for a movie'''
 
-    def get_queryset(self):
-        movie_id = self.request.query_params.get('movie_id')
-        page = self.request.query_params.get('page')
+    def get(self, request, *args, **kwargs):
+        movie_id = request.query_params.get('movie_id')
+        page = request.query_params.get('page', 1)
 
-        return getMovieReviews(movie_id, page=page)
+        if not movie_id:
+            return Response({'error': 'movie_id parameter is required'}, status=status.HTTP_400_BAD_REQUEST)
+
+        try:
+            page = int(page)
+        except ValueError:
+            return Response({'error': 'Invalid page number'}, status=status.HTTP_400_BAD_REQUEST)
+
+        try:
+            reviews = getMovieReviews(movie_id, page=page)
+            return Response(reviews, status=status.HTTP_200_OK)
+        except Exception as e:
+            return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+
+class TVReviewAPI(generics.ListAPIView):
+    '''Get the reviews for a TV show'''
 
     def get(self, request, *args, **kwargs):
-        queryset = self.get_queryset()
+        tv_id = request.query_params.get('tv_id')
+        page = request.query_params.get('page', 1)
 
-        return Response(queryset)
+        if not tv_id:
+            return Response({'error': 'tv_id parameter is required'}, status=status.HTTP_400_BAD_REQUEST)
 
+        try:
+            page = int(page)
+        except ValueError:
+            return Response({'error': 'Invalid page number'}, status=status.HTTP_400_BAD_REQUEST)
 
-class TVReviewAPI(generics.RetrieveAPIView):
-    '''Get the reviews for TV shows'''
-
-    def get_queryset(self):
-        tv_id = self.request.query_params.get('tv_id')
-        page = self.request.query_params.get('page')
-
-        return getTVReviews(tv_id, page=page)
-
-    def get(self, requests, *args, **kwargs):
-        queryset = self.get_queryset()
-
-        return Response(queryset)
+        try:
+            reviews = getTVReviews(tv_id, page=page)
+            return Response(reviews, status=status.HTTP_200_OK)
+        except Exception as e:
+            return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
