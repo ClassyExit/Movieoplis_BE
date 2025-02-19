@@ -20,7 +20,8 @@ def ListAPI(request):
         list_items = ListItem.objects.filter(firebase_uid=firebase_uid)
 
         list_data = [
-                {
+                {   
+                    'item_id': item.item_id,
                     'title': item.title,
                     'overview': item.overview,
                     'poster': item.poster,
