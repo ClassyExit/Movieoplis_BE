@@ -45,6 +45,7 @@ def ListAPI(request):
             return error_response
         
         # Get data from request
+        item_id = request.data.get('item_id')
         title = request.data.get('title')
         overview = request.data.get('overview')
         poster = request.data.get('poster')
