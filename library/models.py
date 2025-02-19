@@ -10,7 +10,7 @@ class ListItem(models.Model):
     ]
 
     firebase_uid = models.CharField(max_length=100)
-    item_id = models.CharField(max_length=100, blank=False, null=False)
+    item_id = models.IntegerField(blank=False, null=False, default=0)
     title = models.CharField(max_length=255)
     overview = models.TextField(blank=True, null=True)
     poster = models.URLField(max_length=500, blank=True, null=True)

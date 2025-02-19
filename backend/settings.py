@@ -122,9 +122,6 @@ CORS_ALLOW_METHODS = (
 )
 
 
-
-
-
 ROOT_URLCONF = 'backend.urls'
 
 TEMPLATES = [
