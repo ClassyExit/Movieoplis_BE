@@ -9,6 +9,10 @@ from .API import multiSearch
 class MultiSearchAPI(generics.RetrieveAPIView):
     '''Get the reviews for a movie'''
 
+
+    def format_results(results): 
+        pass
+
     def get_queryset(self):
         query = self.request.query_params.get('query')
         page = self.request.query_params.get('page') or 1

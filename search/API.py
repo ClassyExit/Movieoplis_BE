@@ -13,9 +13,29 @@ def multiSearch(query, language='en-US', page=1):
     url_tv = f'https://api.themoviedb.org/3/search/tv'
     url_movie = f'https://api.themoviedb.org/3/search/movie'
 
+    try:
+        results_tv = requests.get(url_tv, params=parameters).json()
+        results_movie = requests.get(url_movie, params=parameters).json()
+    except requests.exceptions.RequestException as e:
+        return {'error': f'API request failed: {str(e)}'}
+
+
+    # Ensure 'results' key exists
+    results_tv_list = results_tv.get('results', [])
+    results_movie_list = results_movie.get('results', [])
+    
+
+    for show in results_tv_list:
+        # Add in 'type' field 
+        show['type'] = 'tv'
+
+    for movie in results_movie_list:
+        # Add in 'type' field 
+        movie['type'] = 'movie'
+
+    
     results = {
-        'tv': requests.get(url_tv, params=parameters).json(),
-        'movies': requests.get(url_movie, params=parameters).json()
+        'results': results_tv_list + results_movie_list
     }
 
     return results
