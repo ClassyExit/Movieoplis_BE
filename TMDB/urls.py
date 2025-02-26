@@ -1,9 +1,9 @@
 from django.urls import path
 
-from .views import  StatusPageAPI, GenreAPI
+from . import views   
 
 urlpatterns = [
-    path('genres', GenreAPI.as_view(), name='genres'),
-    path('health', StatusPageAPI.as_view(), name='status'),
-    
+    path('genres', views.GenreAPI, name='genres'),
+    path('movie-videos', views.MovieVideoPlayerAPI, name='movie-videos' ),
+    path('show-videos', views.ShowVideoPlayerAPI, name='show-videos'),
 ]

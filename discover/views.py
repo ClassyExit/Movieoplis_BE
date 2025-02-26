@@ -1,8 +1,9 @@
-from django.shortcuts import render
-from rest_framework. response import Response
-from rest_framework import generics
 import random
+from django.shortcuts import render
+from rest_framework.response import Response
+from rest_framework import generics, status
 
+from .API import getPopularMovies, getVideos
 from .API import getMovieDiscover, getTVShowsDiscover, getPopularMovies, getVideos
 
 
@@ -54,21 +55,6 @@ class TVDiscoverAPI(generics.ListAPIView):
         return Response(tv_shows)
 
 
-
-import random
-from django.shortcuts import render
-from rest_framework.response import Response
-from rest_framework import generics, status
-
-from .API import getPopularMovies, getVideos
-
-import random
-from django.shortcuts import render
-from rest_framework.response import Response
-from rest_framework import generics, status
-
-from .API import getPopularMovies, getVideos
-
 class TrailerDiscoverAPI(generics.RetrieveAPIView):
     def get(self, request, *args, **kwargs):
         max_retries = 5  # Limit retries to prevent infinite loops
@@ -79,8 +65,7 @@ class TrailerDiscoverAPI(generics.RetrieveAPIView):
 
             # Fetch popular movies
             movies = getPopularMovies(page=page)
-            # print("Movies API response:", movies) 
-
+    
             if not isinstance(movies, dict) or 'results' not in movies:
                 return Response({'error': 'Invalid movie data received'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
@@ -90,11 +75,9 @@ class TrailerDiscoverAPI(generics.RetrieveAPIView):
 
             # Select a random movie
             movie = random.choice(movies['results'])
-            # print("Selected Movie:", movie)  
 
             # Get movie trailers
             videos = getVideos(movie['id'])
-            # print("Videos API response:", videos)
 
             if not isinstance(videos, dict) or 'results' not in videos:
                 retries += 1
