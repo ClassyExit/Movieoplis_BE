@@ -11,7 +11,7 @@ from .serializers import UserSerializer
 from common_utils.get_uid_from_request import get_uid_from_request
 
 
-@api_view(['POST', 'DELETE'])
+@api_view(['POST', 'DELETE', 'GET'])
 def AddUser(request):
     
     if request.method == 'POST':
@@ -44,5 +44,18 @@ def AddUser(request):
             return Response(status=status.HTTP_204_NO_CONTENT)  
         except Exception as e:
             return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+    elif request.method == 'GET':
+        # GET USER INFO
+        firebase_uid, error_response = get_uid_from_request(request)
+        if error_response:
+            return error_response
         
+
+        user_info = User.objects.filter(firebase_uid=firebase_uid).first()
+
+        if not user_info:
+            return Response({'error': 'User not found'}, status=status.HTTP_404_NOT_FOUND)
+
+        return Response({'id': user_info.firebase_uid, 'canViewVideos': user_info.canViewVideos}, status=status.HTTP_200_OK)
         
