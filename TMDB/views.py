@@ -17,11 +17,6 @@ def GenreAPI(request):
 # Movie Video Player API
 @api_view(['GET'])
 def MovieVideoPlayerAPI(request):
-    # Get the Firebase UID from request
-    firebase_uid, error_response = get_uid_from_request(request)
-    if error_response:
-        return error_response
-
     # Get movie_id from query parameters
     movie_id = request.query_params.get('movie_id')
     if not movie_id:
@@ -35,11 +30,6 @@ def MovieVideoPlayerAPI(request):
 # Show Video Player API
 @api_view(['GET'])
 def ShowVideoPlayerAPI(request):
-    # Get the Firebase UID from request
-    firebase_uid, error_response = get_uid_from_request(request)
-    if error_response:
-        return error_response
-
     # Get TV show details from query parameters
     tv_id = request.query_params.get('tv_id')
     season_number = request.query_params.get('season_number')

@@ -51,7 +51,6 @@ def AddUser(request):
         if error_response:
             return error_response
         
-
         user_info = User.objects.filter(firebase_uid=firebase_uid).first()
 
         if not user_info:
