@@ -47,11 +47,18 @@ def AddUser(request):
 
         user_info = User.objects.filter(firebase_uid=firebase_uid).first()
 
+        ticket_info = UserVideoPermissionQueue.objects.filter(firebase_uid=firebase_uid).first()
+
+        ticket_info_data = ''
+        if ticket_info:
+            ticket_info_data = 'In review'
+        
+
         if not user_info:
             return Response({'error': 'User not found'}, status=status.HTTP_404_NOT_FOUND)
 
         return Response(
-            {'id': user_info.firebase_uid, 'canViewVideos': user_info.canViewVideos, 'isAdmin': user_info.isAdmin},
+            {'id': user_info.firebase_uid, 'canViewVideos': user_info.canViewVideos, 'isAdmin': user_info.isAdmin, 'ticket_info_data': ticket_info_data},
             status=status.HTTP_200_OK
         )
 
