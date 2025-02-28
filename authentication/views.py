@@ -1,9 +1,5 @@
 from django.shortcuts import render
-
-# Create your views here.
-
 from rest_framework import status
-from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from .models import User, UserVideoPermissionQueue
@@ -18,13 +14,13 @@ def AddUser(request):
         firebase_uid, error_response = get_uid_from_request(request)
         if error_response:
             return error_response
-        
+
         data = {'firebase_uid': firebase_uid}
         serializer = UserSerializer(data=data)
         if serializer.is_valid():
             serializer.save()
-            return Response({'success': 'Item added successfully'}, status=status.HTTP_201_CREATED)
-        
+            return Response({'success': 'User added successfully'}, status=status.HTTP_201_CREATED)
+
         return Response({'error': serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
 
     elif request.method == 'DELETE':
@@ -34,13 +30,12 @@ def AddUser(request):
             return error_response
 
         try:
-            # Check if user exists
-            delete_user = User.objects.filter(firebase_uid=firebase_uid)  
+            delete_user = User.objects.filter(firebase_uid=firebase_uid)
             if not delete_user.exists():
                 return Response({'error': 'User not found'}, status=status.HTTP_404_NOT_FOUND)
 
             delete_user.delete()
-            return Response(status=status.HTTP_204_NO_CONTENT)  
+            return Response({'success': 'User deleted successfully'}, status=status.HTTP_204_NO_CONTENT)
         except Exception as e:
             return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
@@ -49,128 +44,99 @@ def AddUser(request):
         firebase_uid, error_response = get_uid_from_request(request)
         if error_response:
             return error_response
-        
+
         user_info = User.objects.filter(firebase_uid=firebase_uid).first()
 
         if not user_info:
             return Response({'error': 'User not found'}, status=status.HTTP_404_NOT_FOUND)
 
-        return Response({'id': user_info.firebase_uid, 'canViewVideos': user_info.canViewVideos, 'isAdmin': user_info.isAdmin}, status=status.HTTP_200_OK)
-    
+        return Response(
+            {'id': user_info.firebase_uid, 'canViewVideos': user_info.canViewVideos, 'isAdmin': user_info.isAdmin},
+            status=status.HTTP_200_OK
+        )
+
     elif request.method == 'PATCH':
-        # GET USER INFO
+        # UPDATE USER PERMISSIONS
         firebase_uid, error_response = get_uid_from_request(request)
         if error_response:
             return error_response
-        
-        # Check if requesting user isAdmin
-        user_info = User.objects.filter(firebase_uid=firebase_uid).first()
 
+        user_info = User.objects.filter(firebase_uid=firebase_uid).first()
         if not user_info:
             return Response({'error': 'User not found'}, status=status.HTTP_404_NOT_FOUND)
 
         if not user_info.isAdmin:
-            return Response({'Authorization': 'Invalid permissions'}, status=status.HTTP_404_NOT_FOUND)
-        
-        # Get User uid from body to update permission
-        user_update_uid = request.data['update_uid']
+            return Response({'error': 'Invalid permissions'}, status=status.HTTP_403_FORBIDDEN)
 
-        if user_update_uid:
-            #Update the field
-            update_user_info = User.objects.filter(firebase_uid=user_update_uid).first()
+        user_update_uid = request.data.get('update_uid')
+        if not user_update_uid:
+            return Response({'error': 'No user ID provided'}, status=status.HTTP_400_BAD_REQUEST)
 
-            if not update_user_info:
-                return Response({'error': 'Update using does not exist'}, status=status.HTTP_404_NOT_FOUND)
-            
-            update_user_info.canViewVideos = True
-            update_user_info.save()
+        update_user_info = User.objects.filter(firebase_uid=user_update_uid).first()
+        if not update_user_info:
+            return Response({'error': 'User to update does not exist'}, status=status.HTTP_404_NOT_FOUND)
 
-            # Delete the query entry
-            queue_entry = UserVideoPermissionQueue.objects.filter(firebase_uid=user_update_uid).first()
+        update_user_info.canViewVideos = True
+        update_user_info.save()
 
-            if queue_entry:
-                # Remove the user from the queue
-                queue_entry.delete()
-            else: 
-                print('No ticket')
-            
+        # Remove the user from the queue
+        UserVideoPermissionQueue.objects.filter(firebase_uid=user_update_uid).delete()
 
-            return Response({'success': 'User approved successfully'}, status=status.HTTP_200_OK)
-        
-        return Response({'error': 'No user found'}, status=status.HTTP_404_NOT_FOUND)
-        
+        return Response({'success': 'User approved successfully'}, status=status.HTTP_200_OK)
 
 
 @api_view(['POST', 'GET', 'DELETE'])
 def ApproveUser(request):
-
     if request.method == 'GET':
-        # GET USER INFO
+        # GET QUEUE FOR ADMIN USERS
         firebase_uid, error_response = get_uid_from_request(request)
         if error_response:
             return error_response
-        
-        # Only Admin user can retrieve queue
-        user_info = User.objects.filter(firebase_uid=firebase_uid).first()
 
+        user_info = User.objects.filter(firebase_uid=firebase_uid).first()
         if not user_info:
-            return Response({'error': 'No user found'}, status=status.HTTP_404_NOT_FOUND)
+            return Response({'error': 'User not found'}, status=status.HTTP_404_NOT_FOUND)
 
         if not user_info.isAdmin:
-            return Response({'Authorization': 'Invalid permissions'}, status=status.HTTP_404_NOT_FOUND)
+            return Response({'error': 'Invalid permissions'}, status=status.HTTP_403_FORBIDDEN)
 
-        # Return queue
         queue = UserVideoPermissionQueue.objects.all()
-
-        if not queue:
+        if not queue.exists():
             return Response({'error': 'No items in queue'}, status=status.HTTP_404_NOT_FOUND)
 
-        queue_data = [
-            {   
-                'firebase_uid': item.firebase_uid,
-            }
-            for item in queue
-        ]
+        queue_data = [{'firebase_uid': item.firebase_uid} for item in queue]
         return Response({'queue': queue_data}, status=status.HTTP_200_OK)
 
-
     elif request.method == 'POST':
-        """
-        Users can submit a ticket to be approved
-        """
+        # USERS SUBMIT TICKET TO BE APPROVED
         firebase_uid, error_response = get_uid_from_request(request)
         if error_response:
             return error_response
-        
+
         try:
             data = {'firebase_uid': firebase_uid}
             serializer = QueueSerializer(data=data)
             if serializer.is_valid():
                 serializer.save()
-                return Response({'success': 'Item added successfully'}, status=status.HTTP_201_CREATED)
+                return Response({'success': 'Ticket added successfully'}, status=status.HTTP_201_CREATED)
+
             return Response({'error': serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
         except Exception as e:
             return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-        
-    
+
     elif request.method == 'DELETE':
-        """
-        Can tickets for declined users
-        """
+        # REMOVE TICKET FOR DECLINED USERS
         firebase_uid, error_response = get_uid_from_request(request)
         if error_response:
             return error_response
-        
 
-        # Get User uid from body to update permission
-        user_update_uid = request.data['update_uid']
+        user_update_uid = request.data.get('update_uid')
+        if not user_update_uid:
+            return Response({'error': 'No user ID provided'}, status=status.HTTP_400_BAD_REQUEST)
 
-        if user_update_uid:
-            # Delete the query entry
-            queue_entry = UserVideoPermissionQueue.objects.filter(firebase_uid=user_update_uid).first()
+        queue_entry = UserVideoPermissionQueue.objects.filter(firebase_uid=user_update_uid).first()
+        if queue_entry:
+            queue_entry.delete()
+            return Response({'success': 'Ticket deleted successfully'}, status=status.HTTP_200_OK)
 
-            if queue_entry:
-                # Remove the user from the queue
-                queue_entry.delete()
-                return Response({'success': 'Ticket deleted'}, status=status.HTTP_204_NO_CONTENT)
-            return Response({'error': 'No ticket found'}, status=status.HTTP_404_NOT_FOUND)
+        return Response({'error': 'No ticket found'}, status=status.HTTP_404_NOT_FOUND)
