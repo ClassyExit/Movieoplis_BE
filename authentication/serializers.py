@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import User
+from .models import User, UserVideoPermissionQueue
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
@@ -11,4 +11,8 @@ class UserSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError({'error': "User exists"})
         return uid
 
-    
+
+class QueueSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = UserVideoPermissionQueue
+        fields = ['firebase_uid']

@@ -66,7 +66,10 @@ def AddUser(request):
         # Check if requesting user isAdmin
         user_info = User.objects.filter(firebase_uid=firebase_uid).first()
 
-        if user_info is not user_info.isAdmin:
+        if not user_info:
+            return Response({'error': 'User not found'}, status=status.HTTP_404_NOT_FOUND)
+
+        if not user_info.isAdmin:
             return Response({'Authorization': 'Invalid permissions'}, status=status.HTTP_404_NOT_FOUND)
         
         # Get User uid from body to update permission
@@ -76,14 +79,21 @@ def AddUser(request):
             #Update the field
             update_user_info = User.objects.filter(firebase_uid=user_update_uid).first()
 
+            if not update_user_info:
+                return Response({'error': 'Update using does not exist'}, status=status.HTTP_404_NOT_FOUND)
+            
             update_user_info.canViewVideos = True
             update_user_info.save()
 
             # Delete the query entry
             queue_entry = UserVideoPermissionQueue.objects.filter(firebase_uid=user_update_uid).first()
 
-            # Remove the user from the queue
-            queue_entry.delete()
+            if queue_entry:
+                # Remove the user from the queue
+                queue_entry.delete()
+            else: 
+                print('No ticket')
+            
 
             return Response({'success': 'User approved successfully'}, status=status.HTTP_200_OK)
         
@@ -103,7 +113,10 @@ def ApproveUser(request):
         # Only Admin user can retrieve queue
         user_info = User.objects.filter(firebase_uid=firebase_uid).first()
 
-        if user_info is not user_info.isAdmin:
+        if not user_info:
+            return Response({'error': 'No user found'}, status=status.HTTP_404_NOT_FOUND)
+
+        if not user_info.isAdmin:
             return Response({'Authorization': 'Invalid permissions'}, status=status.HTTP_404_NOT_FOUND)
 
         # Return queue
@@ -112,7 +125,16 @@ def ApproveUser(request):
         if not queue:
             return Response({'error': 'No items in queue'}, status=status.HTTP_404_NOT_FOUND)
 
-        return Response({'queue': queue}, status=status.HTTP_200_OK)        
+
+        queue_data = [
+            {   
+                'firebase_uid': item.firebase_uid,
+            }
+            for item in queue
+        ]
+        return Response({'queue': queue_data}, status=status.HTTP_200_OK)
+          
+            
           
 
     elif request.method == 'POST':
