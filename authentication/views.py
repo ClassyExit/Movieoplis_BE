@@ -101,7 +101,7 @@ def AddUser(request):
         
 
 
-@api_view(['POST', 'GET'])
+@api_view(['POST', 'GET', 'DELETE'])
 def ApproveUser(request):
 
     if request.method == 'GET':
@@ -125,7 +125,6 @@ def ApproveUser(request):
         if not queue:
             return Response({'error': 'No items in queue'}, status=status.HTTP_404_NOT_FOUND)
 
-
         queue_data = [
             {   
                 'firebase_uid': item.firebase_uid,
@@ -133,9 +132,7 @@ def ApproveUser(request):
             for item in queue
         ]
         return Response({'queue': queue_data}, status=status.HTTP_200_OK)
-          
-            
-          
+
 
     elif request.method == 'POST':
         """
@@ -154,3 +151,26 @@ def ApproveUser(request):
             return Response({'error': serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
         except Exception as e:
             return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        
+    
+    elif request.method == 'DELETE':
+        """
+        Can tickets for declined users
+        """
+        firebase_uid, error_response = get_uid_from_request(request)
+        if error_response:
+            return error_response
+        
+
+        # Get User uid from body to update permission
+        user_update_uid = request.data['update_uid']
+
+        if user_update_uid:
+            # Delete the query entry
+            queue_entry = UserVideoPermissionQueue.objects.filter(firebase_uid=user_update_uid).first()
+
+            if queue_entry:
+                # Remove the user from the queue
+                queue_entry.delete()
+                return Response({'success': 'Ticket deleted'}, status=status.HTTP_204_NO_CONTENT)
+            return Response({'error': 'No ticket found'}, status=status.HTTP_404_NOT_FOUND)
