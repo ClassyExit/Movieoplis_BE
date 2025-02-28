@@ -13,7 +13,6 @@ from common_utils.get_uid_from_request import get_uid_from_request
 
 @api_view(['POST', 'DELETE', 'GET'])
 def AddUser(request):
-    
     if request.method == 'POST':
         # ADD USER TO MATCH FIREBASE UID
         firebase_uid, error_response = get_uid_from_request(request)
@@ -56,13 +55,12 @@ def AddUser(request):
         if not user_info:
             return Response({'error': 'User not found'}, status=status.HTTP_404_NOT_FOUND)
 
-        return Response({'id': user_info.firebase_uid, 'canViewVideos': user_info.canViewVideos}, status=status.HTTP_200_OK)
+        return Response({'id': user_info.firebase_uid, 'canViewVideos': user_info.canViewVideos, 'isAdmin': user_info.isAdmin}, status=status.HTTP_200_OK)
         
 
 
-@api_view(['POST'])
+@api_view(['POST', 'GET'])
 def ApproveUser(request):
-
 
     if request.method == 'GET':
         # GET USER INFO
@@ -83,14 +81,11 @@ def ApproveUser(request):
             return Response({'error': 'No items in queue'}, status=status.HTTP_404_NOT_FOUND)
 
         return Response({'queue': queue}, status=status.HTTP_200_OK)        
-        
-
-        
-    
+          
 
     elif request.method == 'POST':
         """
-        Approves a user by updating their canViewVideos field to True if they exist in the UserVideoPermissionQueue.
+        Approves a user by updating their canViewVideos field to True
         """
         firebase_uid, error_response = get_uid_from_request(request)
         if error_response:
