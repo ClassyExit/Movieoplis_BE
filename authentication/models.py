@@ -8,6 +8,7 @@ class User(models.Model):
     canViewVideos = models.BooleanField(default=False)
     isAdmin = models.BooleanField(default=False)
 
+
     
     def __str__(self):
         return self.firebase_uid
